@@ -31,16 +31,16 @@ st.caption("First, enter your general release info (applies to all pitches).")
 # One-time release metrics
 col1, col2, col3 = st.columns(3)
 with col1:
-    release_pos_x = st.number_input("Release position X", value=0.0, step=0.1)*-1 #mlb release side is flipped from rapsodo
+    release_pos_x = st.number_input("Release Side(ft)", value=0.0, step=0.1)*-1 #mlb release side is flipped from rapsodo
 with col2:
-    release_height = st.number_input("Release height", value=6.0, step=0.1)
+    release_height = st.number_input("Release height(ft)", value=6.0, step=0.1)
 with col3:
-    release_ext = st.number_input("Extension", value=6.0, step=0.1)
+    release_ext = st.number_input("Extension(ft)", value=6.0, step=0.1)
 
 st.divider()
 
 st.subheader("Enter your pitch types:")
-st.caption("Each pitch should have: [MPH diff from fastball(FB should be 0), horizontal movement (inches), vertical movement (inches)]")
+st.caption("Each pitch should have: MPH diff from fastball(FB should be 0), horizontal movement (inches), induced vertical break (inches)")
 
 # Dynamic pitch input (simplified)
 user_pitches = {}
@@ -51,9 +51,9 @@ for pitch in pitch_types:
     with col1:
         speed_diff = st.number_input(f"{pitch} mph diff", value=0.0)
     with col2:
-        pfx_x = st.number_input(f"{pitch} horizontal movement (inches)", value=0.0) / -12 # to adjust for inches and MLB is flipped movement from rapsodo
+        pfx_x = st.number_input(f"{pitch} horizontal movement= (inches)", value=0.0) / -12 # to adjust for inches and MLB is flipped movement from rapsodo
     with col3:
-        pfx_z = st.number_input(f"{pitch} vertical movement (inches)", value=0.0) / 12
+        pfx_z = st.number_input(f"{pitch} ivb (inches)", value=0.0) / 12
 
     user_pitches[pitch] = [
         speed_diff,
