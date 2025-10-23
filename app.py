@@ -40,30 +40,37 @@ with col3:
 st.divider()
 
 st.subheader("Enter your pitch types:")
-st.caption("Each pitch should have: MPH diff from fastball(FB should be 0), horizontal movement (inches), induced vertical break (inches)")
+st.caption("Each pitch should have: speed(mph), horizontal movement (inches), induced vertical break (inches)")
 
 # Dynamic pitch input (simplified)
 user_pitches = {}
 pitch_types = st.multiselect("Which pitch types do you throw?", ["FF", "SL", "CH", "CU", "SI", "FC", "SP"])
-
 for pitch in pitch_types:
     col1, col2, col3 = st.columns(3)
     with col1:
-        speed_diff = st.number_input(f"{pitch} mph diff", value=0.0)
+        pitch_speed = st.number_input(f"{pitch} mph", value=0.0)
     with col2:
-        pfx_x = st.number_input(f"{pitch} horizontal movement= (inches)", value=0.0) / -12 # to adjust for inches and MLB is flipped movement from rapsodo
+        pfx_x = st.number_input(f"{pitch} horizontal movement (inches)", value=0.0) / -12 # to adjust for inches and MLB is flipped movement from rapsodo
     with col3:
         pfx_z = st.number_input(f"{pitch} ivb (inches)", value=0.0) / 12
 
     user_pitches[pitch] = [
-        speed_diff,
+        pitch_speed,
         release_pos_x,
         release_height,
         release_ext,
         pfx_x,
         pfx_z,
     ]
+speeds=[]
+for i in user_pitches.values():
+    speeds.append(i[0])
+if speeds:
+    max_speed=max(speeds)
+    for i in user_pitches.values():
+        i[0]-=max_speed # get the speed differential
 
+    
 if st.button("Find Similar Pitchers"):
     if len(user_pitches) == 0:
         st.warning("Please enter at least one pitch type.")
